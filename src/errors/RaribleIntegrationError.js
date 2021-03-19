@@ -9,4 +9,4 @@ class RaribleIntegrationError extends Error {
   }
 }
 
-module.exports = RaribleIntegrationError;
+export default RaribleIntegrationError;

@@ -1,1 +1,2 @@
-module.exports = require('./errors');
+import { default as RaribleSDK } from './RaribleSDK';
+export { RaribleSDK };

@@ -1,1 +1,3 @@
-module.exports.RaribleIntegrationError = require('./RaribleIntegrationError.js');
+import { default as RaribleIntegrationError } from "./RaribleIntegrationError";
+
+export { RaribleIntegrationError };
