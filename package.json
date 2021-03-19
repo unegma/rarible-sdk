@@ -1,0 +1,9 @@
+{
+  "name": "rarible-sdk",
+  "version": "1.0.0",
+  "description": "Utilities for interacting with Rarible APIs",
+  "main": "src/index.js",
+  "repository": "git@github.com:unegma/rarible-sdk.git",
+  "author": "tim@unegma.com",
+  "license": "MIT"
+}
