@@ -3,7 +3,7 @@ Utility functions for interacting with Rarible API
 
 ## Usage
 
-`npm install @unegma/rarible-sdk --save`
+`npm install rarible-sdk --save`
 
 ```
 
