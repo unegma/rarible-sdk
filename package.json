@@ -2,8 +2,21 @@
   "name": "rarible-sdk",
   "version": "1.0.0",
   "description": "Utilities for interacting with Rarible APIs",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest --watch --verbose",
+    "build": "babel src -d dist --ignore src/**/*.test.js,**/tests/** && tsc",
+    "pub": "yarn build && yarn publish --access public"
+  },
   "repository": "git@github.com:unegma/rarible-sdk.git",
   "author": "tim@unegma.com",
-  "license": "MIT"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "typescript": "^4.2.3"
+  }
 }
