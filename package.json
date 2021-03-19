@@ -11,7 +11,8 @@
     "test": "jest --watch --verbose",
     "update-install": "npm update; npm install",
     "build": "babel src -d dist --ignore src/**/*.test.js,**/tests/** && tsc",
-    "pub": "npm build && npm publish --access public"
+    "pub": "npm build && npm publish --access public",
+    "unpublish-single-version": "npm unpublish <package-name>@<version>"
   },
   "repository": "git@github.com:unegma/rarible-sdk.git",
   "author": "tim@unegma.com",
@@ -20,5 +21,8 @@
     "@babel/cli": "^7.4.4",
     "coveralls": "^3.0.2",
     "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "web3": "^1.3.4"
   }
 }
