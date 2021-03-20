@@ -6,7 +6,7 @@ Utility functions for interacting with Rarible API
 `npm install rarible-sdk --save`
 
 ```
-
+import { RaribleSDK } from "rarible-sdk";
 const rarible = new RaribleSDK();
 const raribleTestnet = new RaribleSDK('rinkeby');
 
