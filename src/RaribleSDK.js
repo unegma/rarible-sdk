@@ -257,6 +257,40 @@ class RaribleSDK {
       throw new RaribleIntegrationError(error.message);
     }
   }
+
+  /**
+   * Get item meta by item id
+   * @param {string} id
+   * @returns {Promise<*>}
+   */
+  async getItemMeta(id) {
+    try {
+      const axiosConfig = {
+        method: 'get',
+        url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v1/items/${id}/meta`
+      };
+      return await axios(axiosConfig);
+    } catch(error) {
+      throw new RaribleIntegrationError(error.message);
+    }
+  }
+
+  /**
+   * Get item data by item id
+   * @param {string} id
+   * @returns {Promise<*>}
+   */
+  async getItem(id) {
+    try {
+      const axiosConfig = {
+        method: 'get',
+        url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v1/items/${id}`
+      };
+      return await axios(axiosConfig);
+    } catch(error) {
+      throw new RaribleIntegrationError(error.message);
+    }
+  }
 }
 
 export default RaribleSDK;
