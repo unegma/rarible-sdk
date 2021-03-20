@@ -239,6 +239,24 @@ class RaribleSDK {
       data: data
     };
   }
+
+  /**
+   * Get all items from rarible
+   * Looks like it is paged by 50 items so will need to do multiple calls
+   *
+   * @returns {Promise<*>}
+   */
+  async getItems() {
+    try {
+      const axiosConfig = {
+        method: 'get',
+        url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v1/items`
+      };
+      return await axios(axiosConfig);
+    } catch(error) {
+      throw new RaribleIntegrationError(error.message);
+    }
+  }
 }
 
 export default RaribleSDK;
