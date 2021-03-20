@@ -138,7 +138,7 @@ class RaribleSDK {
    * @param {string} pinataAPISecret
    * @param {string} fileURL
    * @throws {IPFSUploadError} will throw an error if can't upload to IPFS
-   * @returns {Promise<{IpfsHash: IpfsHash, PinSize: *, TimeStamp: *}>} // todo check
+   * @returns {Promise<{IpfsHash: IpfsHash, PinSize: *, TimeStamp: *}>|{}} // todo check
    */
   async uploadImageToIPFS(pinataAPIKey, pinataAPISecret, fileURL) {
     try {
@@ -148,7 +148,13 @@ class RaribleSDK {
       const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret,
           data, `multipart/form-data; boundary= ${data._boundary}`);
 
-      return await axios(axiosConfig);
+      const result = await axios(axiosConfig);
+
+      if (result.data) {
+        return result;
+      } else {
+        return {};
+      }
     } catch (error) {
       throw new IPFSUploadError(error.message);
     }
