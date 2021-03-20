@@ -12,6 +12,7 @@ const ABIS = {
   ERC721: ERC721,
   ERC1155: ERC1155,
 }
+
 /**
  * RaribleSDK
  */
@@ -95,7 +96,7 @@ class RaribleSDK {
           contractAbi = JSON.parse(ABIS.ERC721);
           break;
         case "ERC1155":
-          contractAbi = JSON.parse(ABIS.ERC721);
+          contractAbi = JSON.parse(ABIS.ERC1155);
           break;
       }
 
@@ -106,8 +107,7 @@ class RaribleSDK {
         creators, royalties, signatures
       ]
 
-      let response = await contract.methods.mintAndTransfer(raribleOptionsJSON, address);
-      return response;
+      return await contract.methods.mintAndTransfer(raribleOptionsJSON, address);
     } catch(error) {
       throw new RaribleIntegrationError(error.message);
     }
@@ -143,7 +143,7 @@ class RaribleSDK {
       let data = new FormData({});
       data.append("file", fs.createReadStream(fileURL));
 
-      const axiosConfig = this.getAxiosConfig(pinataAPIKey, pinataAPISecret,
+      const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret,
           data, `multipart/form-data; boundary= ${data._boundary}`);
 
       return await axios(axiosConfig);
@@ -179,8 +179,8 @@ class RaribleSDK {
    */
   async addMetaDataToIPFS(pinataAPIKey, pinataAPISecret, nftName, nftDescription, imageIpfsHash, extraAttributes) {
     try {
-      let data = this.createMetaData(nftName, nftDescription, imageIpfsHash, extraAttributes);
-      const axiosConfig = this.getAxiosConfig(pinataAPIKey, pinataAPISecret, data, 'application/json');
+      let data = createMetaData(nftName, nftDescription, imageIpfsHash, extraAttributes);
+      const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret, data, 'application/json');
       return await axios(axiosConfig); // JSON.stringify(response.data)
     } catch (error) {
       throw new IPFSUploadError(error.message);
