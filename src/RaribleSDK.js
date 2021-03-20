@@ -201,8 +201,20 @@ class RaribleSDK {
     }
   }
 
-  async getNextAvailableTokenID() {
 
+  /**
+   * Get next available tokenId
+   * @param {string} token
+   * @param {string} minter
+   * @returns {Promise<*>}
+   */
+  async getNextAvailableTokenID(token, minter) {
+    const axiosConfig = {
+      method: 'get',
+      url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v0.1/collections/${token}/generate_token_id?minter=${minter}`
+    };
+    const result = await axios(axiosConfig);
+    return result.data.tokenId;
   }
 
   async getExternalUrl() {
