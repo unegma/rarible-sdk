@@ -43,10 +43,12 @@ class RaribleSDK {
     this.networkConstants = networkConstants;
     this.abis = abis;
 
-    if(this.network === 'rinkeby') {
+    if (this.network === 'rinkeby') {
       this.networkConstants = RINKEBY_CONSTS;
-    } else if (this.network !== 'mainnet') {
-      throw new RaribleIntegrationError('Incorrect Network Specified');
+    } else if (this.network === 'mainnet') {
+      this.networkConstants = MAINNET_CONSTS;
+    }else {
+      // throw new RaribleIntegrationError('Incorrect Network Specified');
     }
   }
 
@@ -199,7 +201,12 @@ class RaribleSDK {
         method: 'get',
         url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v1/items`
       };
-      return await axios(axiosConfig);
+      const result = await axios(axiosConfig);
+      if (result.data && result.data.items) {
+        return result.data.items;
+      } else {
+        return [];
+      }
     } catch(error) {
       throw new RaribleIntegrationError(error.message);
     }
@@ -216,7 +223,12 @@ class RaribleSDK {
         method: 'get',
         url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v1/items/${id}/meta`
       };
-      return await axios(axiosConfig);
+      const result = await axios(axiosConfig);
+      if (result.data) {
+        return result.data;
+      } else {
+        return [];
+      }
     } catch(error) {
       throw new RaribleIntegrationError(error.message);
     }
@@ -233,7 +245,13 @@ class RaribleSDK {
         method: 'get',
         url: `${this.networkConstants.RaribleURLBase}protocol/ethereum/nft/indexer/v1/items/${id}`
       };
-      return await axios(axiosConfig);
+      const result = await axios(axiosConfig);
+
+      if (result.data) {
+        return result.data;
+      } else {
+        return [];
+      }
     } catch(error) {
       throw new RaribleIntegrationError(error.message);
     }
