@@ -187,60 +187,6 @@ class RaribleSDK {
   }
 
   /**
-   * Format the metadata correctly for uploading
-   * @param {string} nftName
-   * @param {string} nftDescription
-   * @param {IpfsHash} ipfsHash
-   * @param {RaribleAttributes|undefined} extraAttributes
-   * @returns {string}
-   */
-  createMetaData(nftName, nftDescription, ipfsHash, extraAttributes) {
-    const {
-      raribleURL,
-      keyName,
-      traitType,
-      keyValue
-    } = extraAttributes;
-
-    return JSON.stringify({
-      "name": nftName,
-      "description": nftDescription,
-      "image": `ipfs://ipfs/${ipfsHash}`,
-      "external_url": raribleURL, /* This is the link to Rarible which we currently don't have, we can fill this in shortly */
-      // the below section is not needed.
-      "attributes": [
-        {
-          "key": keyName,
-          "trait_type": traitType,
-          "value": keyValue
-        }
-      ]
-    })
-  }
-
-  /**
-   * Get Axios config
-   *
-   * @param {string} pinataAPIKEY
-   * @param {string} pinataSECRETKEY
-   * @param {*} data
-   * @param {string} contentType
-   * @returns {{headers: {pinata_api_key: *, pinata_secret_api_key: *, "Content-Type": string}, method: string, data: *, url: string}}
-   */
-  getAxiosConfig(pinataAPIKEY, pinataSECRETKEY, data, contentType) {
-    return {
-      method: 'post',
-      url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
-      headers: {
-        'pinata_api_key': pinataAPIKEY,
-        'pinata_secret_api_key': pinataSECRETKEY,
-        'Content-Type': contentType
-      },
-      data: data
-    };
-  }
-
-  /**
    * Get all items from rarible
    * Looks like it is paged by 50 items so will need to do multiple calls
    *
@@ -291,6 +237,61 @@ class RaribleSDK {
       throw new RaribleIntegrationError(error.message);
     }
   }
+}
+
+/**
+ * Get Axios config
+ *
+ * @param {string} pinataAPIKEY
+ * @param {string} pinataSECRETKEY
+ * @param {*} data
+ * @param {string} contentType
+ * @returns {{headers: {pinata_api_key: *, pinata_secret_api_key: *, "Content-Type": string}, method: string, data: *, url: string}}
+ */
+function getAxiosConfig(pinataAPIKEY, pinataSECRETKEY, data, contentType) {
+  return {
+    method: 'post',
+    url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
+    headers: {
+      'pinata_api_key': pinataAPIKEY,
+      'pinata_secret_api_key': pinataSECRETKEY,
+      'Content-Type': contentType
+    },
+    data: data
+  };
+}
+
+
+/**
+ * Format the metadata correctly for uploading
+ * @param {string} nftName
+ * @param {string} nftDescription
+ * @param {IpfsHash} ipfsHash
+ * @param {RaribleAttributes|undefined} extraAttributes
+ * @returns {string}
+ */
+function createMetaData(nftName, nftDescription, ipfsHash, extraAttributes) {
+  const {
+    raribleURL,
+    keyName,
+    traitType,
+    keyValue
+  } = extraAttributes;
+
+  return JSON.stringify({
+    "name": nftName,
+    "description": nftDescription,
+    "image": `ipfs://ipfs/${ipfsHash}`,
+    "external_url": raribleURL, /* This is the link to Rarible which we currently don't have, we can fill this in shortly */
+    // the below section is not needed.
+    "attributes": [
+      {
+        "key": keyName,
+        "trait_type": traitType,
+        "value": keyValue
+      }
+    ]
+  })
 }
 
 export default RaribleSDK;
