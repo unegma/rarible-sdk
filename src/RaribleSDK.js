@@ -1,12 +1,15 @@
 import { RaribleIntegrationError, IPFSUploadError } from "./errors";
 import { RINKEBY_CONSTS } from "./constants/constants";
-import { MAINNET_CONSTS } from "./constants/constants";
+import { MAINNET_CONSTS } from "./constants/constants"; // todo the actual values need finding and adding. Currently, users can pass in manually to the constructor
 import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
 const ERC721  = require("./constants/ERC721ABI.json");
 const ERC1155  = require("./constants/ERC1155ABI.json");
-
+const ABIS = {
+  ERC721: ERC721,
+  ERC1155: ERC1155,
+}
 /**
  * RaribleSDK
  */
@@ -21,17 +24,24 @@ class RaribleSDK {
    */
 
   /**
+   * @type {{ERC721: *, ERC1155: *}} ABIS These will be JSON of the ABIs
+   */
+
+  /**
    * RaribleSDK
-   * @param {network} network
-   * @param {{NetworkConsts}} networkConsts
+   *
+   * @param {network} network - Rinkeyby by default
+   * @param {{NetworkConstants}} networkConstants - Will currently use Rinkeby by Default, // todo need to find real ones for mainnet, but user can pass in manually for now
+   * @param {{ABIS}} abis - An object currently containing ERC721 AND ERC1155 objects of JSON
    * @throws {RaribleIntegrationError} will throw an error if wrong network is supplied
    */
-  constructor(network= 'mainnet', networkConsts = MAINNET_CONSTS) {
+  constructor(network= 'rinkeby', networkConstants = RINKEBY_CONSTS, abis = ABIS) {
     this.network = network;
-    this.networkConsts = networkConsts;
+    this.networkConstants = networkConstants;
+    this.abis = abis;
 
     if(this.network === 'rinkeby') {
-      this.networkConsts = RINKEBY_CONSTS;
+      this.networkConstants = RINKEBY_CONSTS;
     } else if (this.network !== 'mainnet') {
       throw new RaribleIntegrationError('Incorrect Network Specified');
     }
@@ -50,7 +60,7 @@ class RaribleSDK {
    */
   async lazyMintNFT(raribleOptions, type) {
 
-    // this.networkConsts.
+    // this.networkConstants.
     return { data: "Minted!" }
   }
 
