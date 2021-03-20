@@ -50,6 +50,10 @@ class RaribleSDK {
   }
 
   /**
+   * @typedef {string} IpfsHash
+   */
+
+  /**
    * Upload an image to IPFS
    * // todo add implementation for infura?
    * // todo add ability to supply a URL
@@ -68,7 +72,7 @@ class RaribleSDK {
    * @param {string} pinataAPISecret
    * @param {string} fileURL
    * @throws {IPFSUploadError} will throw an error if can't upload to IPFS
-   * @returns {Promise<{IpfsHash: string, PinSize: *, TimeStamp: *}>} // todo check
+   * @returns {Promise<{IpfsHash: IpfsHash, PinSize: *, TimeStamp: *}>} // todo check
    */
   async uploadImageToIPFS(pinataAPIKey, pinataAPISecret, fileURL) {
     try {
@@ -86,6 +90,42 @@ class RaribleSDK {
       return response;
     } catch (error) {
       throw new IPFSUploadError(error.message);
+    }
+  }
+
+  /**
+   * @typedef {{raribleURL: string|undefined, keyName: *|undefined, traitType: *|undefined, keyValue: *|undefined}} RaribleAttributes
+   */
+
+  /**
+   * Format the metadata correctly for uploading
+   * @param {string} nftName
+   * @param {string} nftDescription
+   * @param {IpfsHash} ipfsHash
+   * @param {RaribleAttributes|undefined} extraAttributes
+   * @returns {{image: string, external_url: *, name: *, description: *, attributes: [{value: *, key: *, trait_type: *}]}}
+   */
+  createMetaData(nftName, nftDescription, ipfsHash, extraAttributes) {
+    const {
+      raribleURL,
+      keyName,
+      traitType,
+      keyValue
+    } = extraAttributes;
+
+    return {
+      "name": nftName,
+      "description": nftDescription,
+      "image": `ipfs://ipfs/${ipfsHash}`,
+      "external_url": raribleURL, /* This is the link to Rarible which we currently don't have, we can fill this in shortly */
+      // the below section is not needed.
+      "attributes": [
+        {
+          "key": keyName,
+          "trait_type": traitType,
+          "value": keyValue
+        }
+      ]
     }
   }
 }
