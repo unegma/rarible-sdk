@@ -81,7 +81,7 @@ class RaribleSDK {
    * @param {Mint721ExtraData} raribleExtraOptions
    * @returns {Promise<{data: string}>}
    */
-  async lazyMintNFT(web3, address, type, tokenId, metaDataURI, raribleExtraOptions) {
+  async lazyMintNFT(web3, address, type, tokenId, metaDataURI, raribleExtraOptions = {}) {
     try {
       const {
         creators = [],
