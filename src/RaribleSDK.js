@@ -160,7 +160,7 @@ class RaribleSDK {
   }
 
   /**
-   * @typedef {{raribleURL: string|undefined, keyName: *|undefined, traitType: *|undefined, keyValue: *|undefined}} RaribleAttributes
+   * @typedef {{raribleURL: string|undefined, keyName: string|undefined, traitType: string|undefined, keyValue: string|undefined}} RaribleAttributes
    */
 
   /**
@@ -302,23 +302,23 @@ function getAxiosConfig(pinataAPIKEY, pinataSECRETKEY, data, contentType) {
  */
 function createMetaData(nftName, nftDescription, ipfsHash, extraAttributes) {
   const {
-    raribleURL,
-    keyName,
-    traitType,
-    keyValue
+    raribleURL = "",
+    keyName = "",
+    traitType = "",
+    keyValue = ""
   } = extraAttributes;
 
   return JSON.stringify({
-    "name": nftName,
-    "description": nftDescription,
-    "image": `ipfs://ipfs/${ipfsHash}`,
-    "external_url": raribleURL, /* This is the link to Rarible which we currently don't have, we can fill this in shortly */
+    name: nftName,
+    description: nftDescription,
+    image: `ipfs://ipfs/${ipfsHash}`,
+    external_url: raribleURL, /* This is the link to Rarible which we currently don't have, we can fill this in shortly */
     // the below section is not needed.
-    "attributes": [
+    attributes: [
       {
-        "key": keyName,
-        "trait_type": traitType,
-        "value": keyValue
+        key: keyName,
+        trait_type: traitType,
+        value: keyValue
       }
     ]
   })

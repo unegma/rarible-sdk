@@ -9,7 +9,7 @@ Utility functions for interacting with Rarible API
 import { RaribleSDK } from "rarible-sdk";
 
 // We first create an instance of the sdk which will use 'rinkeby' by default (can also use 'mainnet' // todo currently unfinished as need contract addresses) 
-const raribleSDK = new RaribleSDK();
+const raribleSDK = new RaribleSDK('rinkeby'); // using 'mainnet' will currently not work (//todo needs the right contract addresses)
 
 // We next have to upload an image to ipfs. This will return a hash which will we will then use to upload ALL the metadata to ipfs (2 calls altogether)
 // you will currently need an account with pinata https://pinata.cloud/ // todo could add other services

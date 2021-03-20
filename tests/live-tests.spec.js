@@ -61,6 +61,16 @@ it('Should upload an image to IPFS and get a hash back', async () => {
   console.log('Done');
 })
 
+it('Should upload an image to IPFS and get a hash back and then upload the metadata', async () => {
+  const raribleSDK = new RaribleSDK('rinkeyby');
+  const imageIpfsUploadResponse = await raribleSDK.uploadImageToIPFS(PINATA_API_KEY, PINATA_API_SECRET, './tests/testData/beeplz.jpg');
+  const { IpfsHash } = imageIpfsUploadResponse;
+
+  const ipfsMetaData = await raribleSDK.addMetaDataToIPFS(PINATA_API_KEY, PINATA_API_SECRET, 'My NFT Name', 'My NFT Description', IpfsHash, {});
+
+  console.log('Done');
+})
+
 it('Should get items', async () => {
   const raribleSDK = new RaribleSDK('mainnet');
   let items = await raribleSDK.getItems();
