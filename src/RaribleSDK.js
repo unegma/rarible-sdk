@@ -1,6 +1,8 @@
 import { RaribleIntegrationError } from "./errors";
-import { RINKEBY_CONSTS } from "./constants";
-import { MAINNET_CONSTS } from "./constants";
+import { RINKEBY_CONSTS } from "./constants/constants";
+import { MAINNET_CONSTS } from "./constants/constants";
+const ERC721  = require("./constants/ERC721ABI.json");
+const ERC1155  = require("./constants/ERC1155ABI.json");
 
 /**
  * RaribleSDK
