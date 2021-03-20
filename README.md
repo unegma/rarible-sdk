@@ -25,6 +25,20 @@ const result = await raribleSDK.lazyMintNFT(web3, 'yourAddress', 'ERC721', token
 
 ```
 
+---
+
+```
+// Getting items
+const raribleItems = await raribleSDK.getItems();
+
+// Get Item by ID
+const raribleItems = await raribleSDK.getItem('12345');
+
+// Get Item Meta by ID
+const raribleItems = await raribleSDK.getItemMeta('12345');
+
+```
+
 ## Testing
 
 Tests need to use: `--require @babel/register`
