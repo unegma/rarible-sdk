@@ -139,18 +139,13 @@ class RaribleSDK {
    */
   async uploadImageToIPFS(pinataAPIKey, pinataAPISecret, fileURL) {
     try {
-      const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
       let data = new FormData({});
       data.append("file", fs.createReadStream(fileURL));
 
-      const response = await axios.post(url, data, {
-        headers: {
-          "Content-Type": `multipart/form-data; boundary= ${data._boundary}`,
-          pinata_api_key: pinataAPIKey,
-          pinata_secret_api_key: pinataAPISecret,
-        }
-      });
-      return response;
+      const axiosConfig = this.getAxiosConfig(pinataAPIKey, pinataAPISecret,
+          data, `multipart/form-data; boundary= ${data._boundary}`);
+
+      return await axios(axiosConfig);
     } catch (error) {
       throw new IPFSUploadError(error.message);
     }
@@ -161,12 +156,43 @@ class RaribleSDK {
    */
 
   /**
+   * Add MetaData to IPFS
+   * 2nd IPFS step after uploading an image and getting the hash
+   *
+   * Example result:
+   * ```
+   * {
+   * "IpfsHash": "hsdfhlhkasfd",
+   * "PinSize": 290,
+   * "Timestamp": "2021-02-10T14:06:09.255Z"
+   * }
+   *```
+   *
+   * @param {string} pinataAPIKey
+   * @param {string} pinataAPISecret
+   * @param {string} nftName
+   * @param {string} nftDescription
+   * @param {string} imageIpfsHash
+   * @param {RaribleAttributes} extraAttributes
+   * @returns {Promise<*>}
+   */
+  async addMetaDataToIPFS(pinataAPIKey, pinataAPISecret, nftName, nftDescription, imageIpfsHash, extraAttributes) {
+    try {
+      let data = this.createMetaData(nftName, nftDescription, imageIpfsHash, extraAttributes);
+      const axiosConfig = this.getAxiosConfig(pinataAPIKey, pinataAPISecret, data, 'application/json');
+      return await axios(axiosConfig); // JSON.stringify(response.data)
+    } catch (error) {
+      throw new IPFSUploadError(error.message);
+    }
+  }
+
+  /**
    * Format the metadata correctly for uploading
    * @param {string} nftName
    * @param {string} nftDescription
    * @param {IpfsHash} ipfsHash
    * @param {RaribleAttributes|undefined} extraAttributes
-   * @returns {{image: string, external_url: *, name: *, description: *, attributes: [{value: *, key: *, trait_type: *}]}}
+   * @returns {string}
    */
   createMetaData(nftName, nftDescription, ipfsHash, extraAttributes) {
     const {
@@ -176,7 +202,7 @@ class RaribleSDK {
       keyValue
     } = extraAttributes;
 
-    return {
+    return JSON.stringify({
       "name": nftName,
       "description": nftDescription,
       "image": `ipfs://ipfs/${ipfsHash}`,
@@ -189,7 +215,29 @@ class RaribleSDK {
           "value": keyValue
         }
       ]
-    }
+    })
+  }
+
+  /**
+   * Get Axios config
+   *
+   * @param {string} pinataAPIKEY
+   * @param {string} pinataSECRETKEY
+   * @param {*} data
+   * @param {string} contentType
+   * @returns {{headers: {pinata_api_key: *, pinata_secret_api_key: *, "Content-Type": string}, method: string, data: *, url: string}}
+   */
+  getAxiosConfig(pinataAPIKEY, pinataSECRETKEY, data, contentType) {
+    return {
+      method: 'post',
+      url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
+      headers: {
+        'pinata_api_key': pinataAPIKEY,
+        'pinata_secret_api_key': pinataSECRETKEY,
+        'Content-Type': contentType
+      },
+      data: data
+    };
   }
 }
 
