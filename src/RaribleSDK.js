@@ -1,7 +1,9 @@
 import { RaribleIntegrationError } from "./errors";
+import { RINKEBY_CONSTS } from "./constants";
+import { MAINNET_CONSTS } from "./constants";
 
 /**
- * Base Utilities Class
+ * RaribleSDK
  */
 class RaribleSDK {
 
@@ -13,8 +15,15 @@ class RaribleSDK {
    *
    * @param {network} network
    */
-  constructor(network= "mainnet") {
+  constructor(network= 'mainnet') {
     this.network = network;
+    this.networkConsts = MAINNET_CONSTS;
+
+    if(this.network === 'rinkeby') {
+      this.networkConsts = RINKEBY_CONSTS;
+    } else if (this.network !== 'mainnet') {
+      throw new RaribleIntegrationError('Incorrect Network Specified');
+    }
   }
 
   /**
@@ -29,6 +38,7 @@ class RaribleSDK {
    */
   async mintNFT(raribleOptions, type) {
 
+    // this.networkConsts.
     return { data: "Minted!" }
   }
 }
