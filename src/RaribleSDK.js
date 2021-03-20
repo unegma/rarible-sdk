@@ -151,7 +151,7 @@ class RaribleSDK {
       const result = await axios(axiosConfig);
 
       if (result.data) {
-        return result;
+        return result.data;
       } else {
         return {};
       }

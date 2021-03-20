@@ -1,6 +1,6 @@
 {
   "name": "rarible-sdk",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Utilities for interacting with Rarible APIs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
