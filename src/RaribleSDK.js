@@ -5,8 +5,8 @@ import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
 import Web3 from "web3";
-import ERC721 from "./constants/ERC721ABI.js";
-import ERC1155 from "./constants/ERC1155ABI.js";
+import { ERC721 } from "./constants/ERC721ABI.js";
+import { ERC1155 } from "./constants/ERC1155ABI.js";
 
 const ABIS = {
   ERC721: ERC721,
