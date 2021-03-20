@@ -17,13 +17,18 @@ class RaribleSDK {
    */
 
   /**
+   * @type {{NFTTransferProxy: string, ERC721: string, ERC1155: string, ERC20TransferProxy: string, ExchangeContract: string}} NetworkConsts
+   */
+
+  /**
    * RaribleSDK
    * @param {network} network
+   * @param {{NetworkConsts}} networkConsts
    * @throws {RaribleIntegrationError} will throw an error if wrong network is supplied
    */
-  constructor(network= 'mainnet') {
+  constructor(network= 'mainnet', networkConsts = MAINNET_CONSTS) {
     this.network = network;
-    this.networkConsts = MAINNET_CONSTS;
+    this.networkConsts = networkConsts;
 
     if(this.network === 'rinkeby') {
       this.networkConsts = RINKEBY_CONSTS;

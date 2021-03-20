@@ -1,6 +1,3 @@
-/**
- * @type {{NFTTransferProxy: string, ERC721: string, ERC1155: string, ERC20TransferProxy: string, ExchangeContract: string}}
- */
 export const RINKEBY_CONSTS = {
   ERC721: "0x25646B08D9796CedA5FB8CE0105a51820740C049",
   ERC1155: "0x43162023C187662684abAF0b211dCCB96fa4eD8a",
@@ -9,9 +6,6 @@ export const RINKEBY_CONSTS = {
   ERC20TransferProxy: "0x2FCE8435F0455eDc702199741411dbcD1B7606cA"
 }
 
-/**
- * @type {{NFTTransferProxy: string, ERC721: string, ERC1155: string, ERC20TransferProxy: string, ExchangeContract: string}}
- */
 export const MAINNET_CONSTS = {
   ERC721: "0x25646B08D9796CedA5FB8CE0105a51820740C049",
   ERC1155: "0x43162023C187662684abAF0b211dCCB96fa4eD8a",
