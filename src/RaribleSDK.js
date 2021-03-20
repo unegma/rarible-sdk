@@ -147,7 +147,6 @@ class RaribleSDK {
 
       const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret,
           data, `multipart/form-data; boundary= ${data._boundary}`);
-
       const result = await axios(axiosConfig);
 
       if (result.data) {
@@ -182,14 +181,20 @@ class RaribleSDK {
    * @param {string} nftName
    * @param {string} nftDescription
    * @param {string} imageIpfsHash
-   * @param {RaribleAttributes} extraAttributes
+   * @param {RaribleAttributes} [extraAttributes]
    * @returns {Promise<*>}
    */
   async addMetaDataToIPFS(pinataAPIKey, pinataAPISecret, nftName, nftDescription, imageIpfsHash, extraAttributes) {
     try {
       let data = createMetaData(nftName, nftDescription, imageIpfsHash, extraAttributes);
       const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret, data, 'application/json');
-      return await axios(axiosConfig); // JSON.stringify(response.data)
+      const result = await axios(axiosConfig);
+
+      if (result.data) {
+        return result.data;
+      } else {
+        return {};
+      }
     } catch (error) {
       throw new IPFSUploadError(error.message);
     }

@@ -18,7 +18,7 @@ const imageIpfsUploadResponse = await raribleSDK.uploadImageToIPFS(PINATA_API_KE
 const { IpfsHash } = imageIpfsUploadResponse;
 
 // Next we have to use the hash generated above to post the metadata to ipfs
-const ipfsMetaData = await raribleSDK.addMetaDataToIPFS(PINATA_API_KEY, PINATA_API_SECRET, 'My NFT Name', 'My NFT Description', 'ipfsHashFromUploadImageToIPFS);
+const ipfsMetaData = await raribleSDK.addMetaDataToIPFS(PINATA_API_KEY, PINATA_API_SECRET, 'My NFT Name', 'My NFT Description', IpfsHash);
 
 // Finally we need to submit the data to Rarible. You will need to pass in a web3 object (see here: https://github.com/ChainSafe/web3.js) // todo could add other providers such as ethers
 // todo I'm currently  not quite sure how to get the tokenId
