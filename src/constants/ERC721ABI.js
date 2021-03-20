@@ -1,4 +1,5 @@
-[
+// todo may need to convert to object from json
+export default ERC721 = [
   {
     "inputs": [
       {
