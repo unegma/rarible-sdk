@@ -15,7 +15,7 @@ const raribleSDK = new RaribleSDK();
 // you will currently need an account with pinata https://pinata.cloud/ // todo could add other services
 // you will need to create a way of passing in a local path to the file // todo could add a cloud based url like aws s3
 const imageIpfsUploadResponse = await raribleSDK.uploadImageToIPFS(PINATA_API_KEY, PINATA_API_SECRET, './tests/testData/beeplz.jpg');
-const ipfsHash = { IpfsHash } = imageIpfsUploadResponse;
+const { IpfsHash } = imageIpfsUploadResponse;
 
 // Next we have to use the hash generated above to post the metadata to ipfs
 const ipfsMetaData = await raribleSDK.addMetaDataToIPFS(PINATA_API_KEY, PINATA_API_SECRET, 'My NFT Name', 'My NFT Description', 'ipfsHashFromUploadImageToIPFS);
