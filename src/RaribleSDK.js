@@ -4,6 +4,7 @@ import { MAINNET_CONSTS } from "./constants/constants"; // todo the actual value
 import axios from "axios";
 import fs from "fs";
 import FormData from "form-data";
+import Web3 from "web3";
 const ERC721  = require("./constants/ERC721ABI.json");
 const ERC1155  = require("./constants/ERC1155ABI.json");
 const ABIS = {
@@ -48,20 +49,67 @@ class RaribleSDK {
   }
 
   /**
-   * @typedef { "ERC1155" | "ERC721" } type
+   * @typedef { "ERC1155" | "ERC721" } ABIType
+   */
+
+  /**
+   * @typedef {{tokenId: string|int|undefined, imageUri: string|undefined, creators: *|undefined, royalties: *|undefined, signatures: *|undefined}} Mint721Data
    */
 
   /**
    * Lazy mint an NFT (the item will not be created on Chain until it is bought)
    *
-   * @param {Object} raribleOptions
-   * @param {type} type
+   * Need to pass in a web3 object (may add support for other providers too) e.g.:
+   *
+   * ```
+   * // See here: https://github.com/ChainSafe/web3.js
+   * var Web3 = require("web3");
+   * var web3 = new Web3(
+   *   new Web3.providers.HttpProvider(
+   *   "https://mainnet.infura.io/v3/123456"
+   *   )
+   * );
+   *```
+   *
+   * @param {Web3} web3 // todo we may want to add other providers here ethers maybe?
+   * @param {string} address Your Ethereum Wallet Public Key Address
+   * @param {Mint721Data} raribleOptions
+   * @param {ABIType} type
    * @returns {Promise<{data: string}>}
    */
-  async lazyMintNFT(raribleOptions, type) {
+  async lazyMintNFT(web3, address, raribleOptions, type) {
+    try {
+      const {
+        tokenId,
+        imageUri,
+        creators,
+        royalties = [],
+        signatures = ["0x"]
+      } = raribleOptions;
 
-    // this.networkConstants.
-    return { data: "Minted!" }
+      let contractAbi;
+
+      switch (type) {
+        case "ERC721":
+          contractAbi = JSON.parse(ABIS.ERC721);
+          break;
+        case "ERC1155":
+          contractAbi = JSON.parse(ABIS.ERC721);
+          break;
+      }
+
+      const contract = new web3.eth.Contract(contractAbi, address);
+      const raribleOptionsJSON = [
+        tokenId,
+        imageUri,
+        [creators, royalties, signatures]
+      ]
+
+      let response = await contract.methods.mintAndTransfer(raribleOptionsJSON, address);
+      return response;
+    } catch(error) {
+      throw new RaribleIntegrationError(error.message);
+    }
   }
 
   /**
