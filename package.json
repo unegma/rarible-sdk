@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "jest --watch --verbose",
+    "test": "mocha ./tests --require @babel/register",
     "update-install": "npm update; npm install",
     "build": "babel src -d dist --ignore src/**/*.test.js,**/tests/** && tsc",
     "pub": "npm build && npm publish --access public",
@@ -18,8 +18,15 @@
   "author": "tim@unegma.com",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "@babel/runtime": "^7.13.10",
+    "chai": "^4.3.4",
     "coveralls": "^3.0.2",
+    "mocha": "^8.3.2",
     "typescript": "^4.2.3"
   },
   "dependencies": {
