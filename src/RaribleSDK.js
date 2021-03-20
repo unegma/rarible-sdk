@@ -21,7 +21,7 @@ class RaribleSDK {
    */
 
   /**
-   * @type {{NFTTransferProxy: string, ERC721: string, ERC1155: string, ERC20TransferProxy: string, ExchangeContract: string}} NetworkConsts
+   * @type {{NFTTransferProxy: string, ERC721: string, ERC1155: string, ERC20TransferProxy: string, ExchangeContract: string}} NetworkConstants
    */
 
   /**
@@ -53,7 +53,7 @@ class RaribleSDK {
    */
 
   /**
-   * @typedef {{tokenId: string|int|undefined, imageUri: string|undefined, creators: *|undefined, royalties: *|undefined, signatures: *|undefined}} Mint721Data
+   * @typedef {{creators: *|undefined, royalties: *|undefined, signatures: *|undefined}} Mint721ExtraData
    */
 
   /**
@@ -73,19 +73,19 @@ class RaribleSDK {
    *
    * @param {Web3} web3 // todo we may want to add other providers here ethers maybe?
    * @param {string} address Your Ethereum Wallet Public Key Address
-   * @param {Mint721Data} raribleOptions
    * @param {ABIType} type
+   * @param {string} tokenId // todo does this have to be fetched manually via api first?
+   * @param {string} metaDataURI
+   * @param {Mint721ExtraData} raribleExtraOptions
    * @returns {Promise<{data: string}>}
    */
-  async lazyMintNFT(web3, address, raribleOptions, type) {
+  async lazyMintNFT(web3, address, type, tokenId, metaDataURI, raribleExtraOptions) {
     try {
       const {
-        tokenId,
-        imageUri,
-        creators,
+        creators = [],
         royalties = [],
         signatures = ["0x"]
-      } = raribleOptions;
+      } = raribleExtraOptions;
 
       let contractAbi;
 
@@ -101,8 +101,8 @@ class RaribleSDK {
       const contract = new web3.eth.Contract(contractAbi, address);
       const raribleOptionsJSON = [
         tokenId,
-        imageUri,
-        [creators, royalties, signatures]
+        metaDataURI,
+        creators, royalties, signatures
       ]
 
       let response = await contract.methods.mintAndTransfer(raribleOptionsJSON, address);
