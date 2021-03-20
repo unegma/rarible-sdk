@@ -28,14 +28,19 @@ const result = await raribleSDK.lazyMintNFT(web3, 'yourAddress', 'ERC721', token
 ---
 
 ```
+import { RaribleSDK } from "rarible-sdk";
+const raribleSDK = new RaribleSDK('mainnet'); // THIS CURRENTLY ONLY WORKS WITH MAINNET (//todo need the correct url)
+
 // Getting items
 const raribleItems = await raribleSDK.getItems();
 
 // Get Item by ID
-const raribleItems = await raribleSDK.getItem('12345');
+// ID will likely take the format of a long number 0x000eb...  then a : then another long nubmer like 0x00ef..
+// you can test with some example ids by calling getItems first and then seeing from there
+const raribleItems = await raribleSDK.getItem('0x00eb:0x00');
 
 // Get Item Meta by ID
-const raribleItems = await raribleSDK.getItemMeta('12345');
+const raribleItems = await raribleSDK.getItemMeta('0x00eb:0x00');
 
 ```
 
