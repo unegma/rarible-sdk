@@ -155,6 +155,7 @@ class RaribleSDK {
         return {};
       }
     } catch (error) {
+      // todo if 403, throw authentication error
       throw new IPFSUploadError(error.message);
     }
   }
