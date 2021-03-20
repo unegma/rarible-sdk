@@ -146,7 +146,7 @@ class RaribleSDK {
       data.append("file", fs.createReadStream(fileURL));
 
       const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret,
-          data, `multipart/form-data; boundary= ${data._boundary}`);
+          data, `multipart/form-data; boundary= ${data._boundary}`, 'pinFileToIPFS');
       const result = await axios(axiosConfig);
 
       if (result.data) {
@@ -187,7 +187,7 @@ class RaribleSDK {
   async addMetaDataToIPFS(pinataAPIKey, pinataAPISecret, nftName, nftDescription, imageIpfsHash, extraAttributes) {
     try {
       let data = createMetaData(nftName, nftDescription, imageIpfsHash, extraAttributes);
-      const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret, data, 'application/json');
+      const axiosConfig = getAxiosConfig(pinataAPIKey, pinataAPISecret, data, 'application/json', 'pinJSONToIPFS');
       const result = await axios(axiosConfig);
 
       if (result.data) {
@@ -198,6 +198,19 @@ class RaribleSDK {
     } catch (error) {
       throw new IPFSUploadError(error.message);
     }
+  }
+
+  async getNextAvailableTokenID() {
+
+  }
+
+  async getExternalUrl() {
+    // "external_url": "https://app.rarible.com/0x60f80121c31a0d46b5279700f9df786054aa5ee5:123913"
+
+    // (The tokenId typically is made up of two sections, the first 20 bytes in the users'
+    // address and the next 12 bytes can be any random number. We will provide an API to allow you
+    // to get the next free available ID.), for this example, our external_url must be the collection address + tokenId
+    // and it will look like this
   }
 
   /**
@@ -270,18 +283,23 @@ class RaribleSDK {
 }
 
 /**
+ * @typedef {"pinJSONToIPFS"|"pinFileToIPFS"} AxiosEndpoint
+ */
+
+/**
  * Get Axios config
  *
  * @param {string} pinataAPIKEY
  * @param {string} pinataSECRETKEY
  * @param {*} data
  * @param {string} contentType
+ * @param {AxiosEndpoint} endpoint
  * @returns {{headers: {pinata_api_key: *, pinata_secret_api_key: *, "Content-Type": string}, method: string, data: *, url: string}}
  */
-function getAxiosConfig(pinataAPIKEY, pinataSECRETKEY, data, contentType) {
+function getAxiosConfig(pinataAPIKEY, pinataSECRETKEY, data, contentType, endpoint) {
   return {
     method: 'post',
-    url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
+    url: `https://api.pinata.cloud/pinning/${endpoint}`,
     headers: {
       'pinata_api_key': pinataAPIKEY,
       'pinata_secret_api_key': pinataSECRETKEY,
