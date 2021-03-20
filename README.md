@@ -15,3 +15,7 @@ const = raribleOptions = {};
 rarible.mintNFT(raribleOptions, 'ERC721');
 rarible.mintNFT(raribleOptions, 'ERC1155');
 ```
+
+## Testing
+
+Tests need to use: `--require @babel/register`
