@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "mocha ./tests --require @babel/register",
+    "test": "mocha ./tests/index.spec.js --require @babel/register",
     "update-install": "npm update; npm install",
     "build": "babel src -d dist --ignore src/**/*.test.js,**/tests/** && tsc",
     "pub": "npm run-script build; npm publish --access public",
@@ -26,10 +26,14 @@
     "@babel/runtime": "^7.13.10",
     "chai": "^4.3.4",
     "coveralls": "^3.0.2",
+    "dotenv": "^8.2.0",
     "mocha": "^8.3.2",
     "typescript": "^4.2.3"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "form-data": "^2.3.3",
+    "fs": "^0.0.1-security",
     "web3": "^1.3.4"
   }
 }

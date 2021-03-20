@@ -5,19 +5,20 @@ require('dotenv').config();
 
 const {
   PINATA_API_KEY,
-  PINATA_API_SECRET
+  PINATA_API_SECRET,
+  EXAMPLE_IMAGE_PATH
 } = process.env;
 
+/**
+ * WARNING, THESE TESTS WILL RUN A LIVE TEST IF .env CONTAINS LIVE API KEYS
+ */
 describe('Tests', () => {
-  it('Should mint an NFT', async () => {
+
+  it('Should upload an image to IPFS and get a hash back', async () => {
     const raribleSDK = new RaribleSDK();
-    const result = await raribleSDK.lazyMintNFT({}, 'ERC721');
+    const result = await raribleSDK.uploadImageToIPFS(PINATA_API_KEY, PINATA_API_SECRET, EXAMPLE_IMAGE_PATH);
 
     expect(result.data).to.equal('Minted!');
     console.log('Done');
   })
-
-  // it('Should upload an image to IPFS and get a hash back', async () => {
-  //   const raribleSDK = new RaribleSDK();
-  // })
 });
